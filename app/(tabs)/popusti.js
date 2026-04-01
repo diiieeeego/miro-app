@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: 'transparent', 
-    paddingTop: 200 // Povećao padding zbog iPhone notcha
+    paddingTop: 100, // Povećao padding zbog iPhone notcha
+    paddingHorizontal: 5
   },
   centered: { 
     flex: 1, 
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 20 
   },
   listPadding: { 
-    paddingBottom: 100 // Prostor za tab bar na dnu
+    paddingBottom: 100, // Prostor za tab bar na dnu
   },
   emptyText: { 
     color: '#666', 

@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 60,
+    marginTop: 0,
     marginBottom: 20,
   },
   listContent: { paddingBottom: 100 },

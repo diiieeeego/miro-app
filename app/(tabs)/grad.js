@@ -59,14 +59,13 @@ export default function GradScreen() {
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           
           <View style={styles.header}>
-            <Text style={styles.headerSubtitle}>Grad</Text>
             <Text style={styles.headerTitle}>Zadar</Text>
             <Text style={styles.headerDesc}>Sve važne gradske informacije</Text>
           </View>
 
           {/* Prvi red: Parking i Prijevoz */}
           <View style={styles.row}>
-            <GridCard title="Parking" icon="local-parking" color="#3b82f6" lib={MaterialCommunityIcons} route="/parking" />
+            <GridCard title="Parking" icon="parking" color="#3b82f6" lib={MaterialCommunityIcons} route="/parking" />
             <GridCard title="Prijevoz" icon="bus-clock" color="#d97706" lib={MaterialCommunityIcons} route="/prijevoz" />
           </View>
 
@@ -90,7 +89,7 @@ export default function GradScreen() {
 
           <View style={styles.row}>
             <GridCard title="Taxi" icon="taxi" color="#475569" lib={FontAwesome5} />
-            <GridCard title="Katamaran" icon="directions-boat" color="#0d9488" lib={MaterialCommunityIcons} />
+            <GridCard title="Katamaran" icon="ferry" color="#0d9488" lib={MaterialCommunityIcons} />
           </View>
 
           {/* Zadnja široka kartica */}
@@ -105,8 +104,8 @@ export default function GradScreen() {
 const styles = StyleSheet.create({
   background: { flex: 1 },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.3)' },
-  scrollContent: { paddingHorizontal: 20, paddingVertical: 100 },
-  header: { alignItems: 'center', marginTop: 60, marginBottom: 30 },
+  scrollContent: { paddingHorizontal: 15, paddingVertical: 100 },
+  header: { alignItems: 'center', marginTop: 0, marginBottom: 30 },
   headerSubtitle: { color: '#fff', fontSize: 18, opacity: 0.8 },
   headerTitle: { color: '#fff', fontSize: 36, fontWeight: 'bold' },
   headerDesc: { color: '#fff', fontSize: 14, opacity: 0.7, marginTop: 5 },

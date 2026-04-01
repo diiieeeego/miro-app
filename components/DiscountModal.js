@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.85)",
     justifyContent: "flex-end", // Modal izlazi odozdo
+    paddingHorizontal: 5
   },
   modalCard: {
     backgroundColor: '#0a0f14', // Fallback boja
