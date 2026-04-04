@@ -151,7 +151,7 @@ export default function EventsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: 'transparent', paddingHorizontal: 15, paddingTop: 100 },
+  container: { flex: 1, backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: 15, paddingTop: 100 },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   headerTitle: { color: '#fff', fontSize: 28, fontWeight: 'bold', marginBottom: 15 },
   

@@ -160,7 +160,7 @@ export default function HomeScreen() {
         <View style={styles.gridContainer}>
           <Pressable
             style={styles.gridCard}
-            onPress={() => router.push("/prijevoz")}
+            onPress={() => router.push("/transport")}
           >
             <BlurView intensity={30} tint="light" style={styles.glassCardInner}>
               <View style={styles.iconCircle}>
@@ -193,7 +193,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingHorizontal: 15, paddingVertical: 100, backgroundColor: 'transparent' },
+  container: { paddingHorizontal: 15, paddingVertical: 100, backgroundColor: 'rgba(0,0,0,0.3)' },
   headerTitle: {
     color: "#fff",
     fontSize: 28,

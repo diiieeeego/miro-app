@@ -15,7 +15,7 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import explore from "../../assets/images/explore1.jpg";
+
 
 const { width } = Dimensions.get("window");
 
@@ -37,11 +37,11 @@ export default function GradScreen() {
       </TouchableOpacity>
     );
   };
-  const WideCard = ({ title, icon, color, lib }) => {
+  const WideCard = ({ title, icon, color, lib, route }) => {
     const IconLib = lib || Ionicons;
 
     return (
-      <TouchableOpacity style={styles.wideCardWrapper}>
+      <TouchableOpacity style={styles.wideCardWrapper} onPress={() => route && router.push(route)}>
         <BlurView intensity={40} tint="light" style={styles.wideGlassCard}>
           <View style={styles.wideContent}>
             <IconLib name={icon} size={24} color={color} />
@@ -101,12 +101,7 @@ export default function GradScreen() {
   };
 
   return (
-    <ImageBackground
-      source={{
-        uri: "https://images.unsplash.com/photo-1555990136-2f0802f5be24?q=80&w=1000",
-      }} // Zamijeni sa svojom slikom Zadra noću
-      style={styles.background}
-    >
+    
       <View style={styles.overlay}>
         <ScrollView
           contentContainerStyle={styles.scrollContent}
@@ -124,12 +119,14 @@ export default function GradScreen() {
               icon="alarm-light"
               color="#ef4444"
               lib={MaterialCommunityIcons}
+              route="/hitne_info"
             />
             <GridCard
               title="Komunalne Info"
               icon="office-building"
               color="#10b981"
               lib={MaterialCommunityIcons}
+              route="/komunalne"
             />
           </View>
 
@@ -140,12 +137,14 @@ export default function GradScreen() {
               icon="calendar-check"
               color="#8b5cf6"
               lib={FontAwesome5}
+              route="/radne_nedjelje"
             />
             <GridCard
               title="Anketa"
               icon="poll"
               color="#f59e0b"
               lib={FontAwesome5}
+              route="/anketa"
             />
           </View>
 
@@ -156,12 +155,14 @@ export default function GradScreen() {
               icon="bus"
               color="#1e40af"
               lib={FontAwesome5}
+              route="/transport"
             />
             <GridCard
               title="Trajekt & Katamaran"
               icon="ship"
               color="#0891b2"
               lib={FontAwesome5}
+              route="/transport"
             />
           </View>
 
@@ -171,6 +172,7 @@ export default function GradScreen() {
               icon="taxi"
               color="#475569"
               lib={FontAwesome5}
+              route="/taxi"
             />
             <GridCard
               title="Parking"
@@ -187,6 +189,7 @@ export default function GradScreen() {
               icon="basketball-ball"
               color="#fbbf24"
               lib={FontAwesome5}
+              route="/sport"
             />
           </View>
           <View style={styles.row}>
@@ -203,7 +206,7 @@ export default function GradScreen() {
           </View>
         </ScrollView>
       </View>
-    </ImageBackground>
+    
   );
 }
 
@@ -323,12 +326,19 @@ const styles = StyleSheet.create({
     
   },
   wideGlassCard1: {
-    padding: 20,
+    padding: 30,
     minHeight: 300, 
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     gap: 15,
+    
+  },
+  wideContent1: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 15,
+    justifyContent: "space-between",
     
   },
   headerRow1: {

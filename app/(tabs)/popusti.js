@@ -78,7 +78,7 @@ export default function DiscountsScreen() {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    backgroundColor: 'transparent', 
+    backgroundColor: 'rgba(0,0,0,0.3)', 
     paddingTop: 100, // Povećao padding zbog iPhone notcha
     paddingHorizontal: 5
   },
