@@ -11,33 +11,29 @@ import {
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { supabase } from '../../lib/supabase';
-import EventModal from '../../components/EventModal'; // 1. Uvezi modal
+import EventModal from '../../components/EventModal';
 
 const { width } = Dimensions.get('window');
+const CATEGORIES = ['Sve', 'Sport', 'Glazba', 'Prijevoz', 'Edukacije', 'Radionice', 'Izlasci'];
 
 export default function EventsScreen() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState(null); // 2. State za odabrani event
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('Sve');
 
   useEffect(() => {
     fetchEvents();
   }, []);
 
-  // Pomoćna funkcija za ljepši prikaz datuma (kao što smo radili za Home)
-  const formatirajDatum = (isoString) => {
-    if (!isoString) return "Uskoro";
-    const date = new Date(isoString);
-    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}. u ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-  };
-
   async function fetchEvents() {
     setLoading(true);
-    // Prikazujemo sve buduće događaje
+    // Dobivamo trenutno vrijeme u ISO formatu
+    const sad = new Date().toISOString();
     const { data, error } = await supabase
       .from('events')
       .select('*')
-      .gte('start_time', new Date().toISOString()) 
+      .gte('start_time', sad)
       .order('start_time', { ascending: true });
 
     if (error) {
@@ -47,6 +43,34 @@ export default function EventsScreen() {
     }
     setLoading(false);
   }
+
+  const formatirajDatum = (isoString) => {
+    if (!isoString) return "Uskoro";
+    const date = new Date(isoString);
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}. u ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  };
+
+  // Filtriranje podataka na temelju odabrane kategorije
+  const filteredEvents = selectedCategory === 'Sve' 
+    ? events 
+    : events.filter(e => e.category === selectedCategory);
+
+  const renderCategoryItem = ({ item }) => (
+    <TouchableOpacity 
+      style={[
+        styles.categoryButton, 
+        selectedCategory === item && styles.categoryButtonActive
+      ]}
+      onPress={() => setSelectedCategory(item)}
+    >
+      <Text style={[
+        styles.categoryText, 
+        selectedCategory === item && styles.categoryTextActive
+      ]}>
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
 
   const renderEventItem = ({ item }) => (
     <TouchableOpacity 
@@ -59,7 +83,7 @@ export default function EventsScreen() {
         vrijeme: formatirajDatum(item.start_time),
         opis: item.description || "Nema dodatnog opisa.",
         ponuda: item.price || "Ulaz slobodan",
-        link: item.link || "https://www.zadar.travel" // Fallback link
+        link: item.link || "https://www.zadar.travel"
       })}
     >
       <ImageBackground
@@ -94,18 +118,30 @@ export default function EventsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>Događaji u Zadru</Text>
+      
+      {/* Slider kategorija */}
+      <View style={{ marginBottom: 20 }}>
+        <FlatList
+          data={CATEGORIES}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item}
+          renderItem={renderCategoryItem}
+          contentContainerStyle={styles.categoryList}
+        />
+      </View>
+
       <FlatList
-        data={events}
+        data={filteredEvents}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderEventItem}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Trenutno nema najavljenih događaja.</Text>
+          <Text style={styles.emptyText}>Nema događaja u kategoriji {selectedCategory}.</Text>
         }
       />
 
-      {/* 3. Dodaj modal na dno View-a */}
       <EventModal 
         event={selectedEvent} 
         onClose={() => setSelectedEvent(null)} 
@@ -115,43 +151,37 @@ export default function EventsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: 'transparent', paddingHorizontal: 15, paddingVertical: 100 },
-  centered: { flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' },
-  headerTitle: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: 0,
-    marginBottom: 20,
-  },
-  listContent: { paddingBottom: 100 },
-  cardContainer: {
-    height: 250,
-    marginBottom: 20,
+  container: { flex: 1, backgroundColor: 'transparent', paddingHorizontal: 15, paddingTop: 100 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  headerTitle: { color: '#fff', fontSize: 28, fontWeight: 'bold', marginBottom: 15 },
+  
+  // Stilovi za kategorije
+  categoryList: { paddingRight: 20 },
+  categoryButton: {
+    paddingHorizontal: 18,
+    paddingVertical: 8,
     borderRadius: 20,
-    overflow: 'hidden',
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    marginRight: 10,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(255,255,255,0.2)'
   },
+  categoryButtonActive: {
+    backgroundColor: '#00aaff',
+    borderColor: '#00aaff',
+  },
+  categoryText: { color: 'rgba(255,255,255,0.7)', fontWeight: '600' },
+  categoryTextActive: { color: '#fff' },
+
+  // Postojeći stilovi...
+  listContent: { paddingBottom: 100 },
+  cardContainer: { height: 250, marginBottom: 20, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
   imageBg: { flex: 1, justifyContent: 'flex-end' },
-  infoBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.1)',
-  },
-  eventDate: { color: '#00aaff', fontSize: 12, fontWeight: 'bold', textTransform: 'uppercase' },
-  eventTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 2 },
-  eventLocation: { color: 'rgba(255,255,255,0.6)', fontSize: 14, marginTop: 2 },
-  priceTag: {
-    backgroundColor: '#ffd700',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  priceText: { color: '#000', fontWeight: 'bold', fontSize: 14 },
-  emptyText: { color: '#666', textAlign: 'center', marginTop: 50 },
+  infoBox: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 },
+  eventDate: { color: '#00aaff', fontSize: 12, fontWeight: 'bold' },
+  eventTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  eventLocation: { color: 'rgba(255,255,255,0.6)', fontSize: 14 },
+  priceTag: { backgroundColor: '#ffd700', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 10 },
+  priceText: { color: '#000', fontWeight: 'bold' },
+  emptyText: { color: '#999', textAlign: 'center', marginTop: 50, fontSize: 16 },
 });
