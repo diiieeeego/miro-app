@@ -11,6 +11,9 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
+import {
+  FontAwesome5,
+} from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { supabase } from "../../lib/supabase";
 import EventModal from "../../components/EventModal";
@@ -34,6 +37,22 @@ export default function HomeScreen() {
     const minute = String(date.getMinutes()).padStart(2, "0");
     return `${dan}.${mjesec}.${godina}. u ${sati}:${minute}`;
   };
+  const GridCard = ({ title, icon, color, lib, route }) => {
+      const IconLib = lib || Ionicons;
+      return (
+        <TouchableOpacity
+          style={styles.cardWrapper}
+          onPress={() => route && router.push(route)}
+        >
+          <BlurView intensity={40} tint="light" style={styles.glassCard}>
+            <View style={[styles.iconContainer, { backgroundColor: color }]}>
+              <IconLib name={icon} size={24} color="#fff" />
+            </View>
+            <Text style={styles.cardTitle}>{title}</Text>
+          </BlurView>
+        </TouchableOpacity>
+      );
+    };
 
   useEffect(() => {
     fetchFeatured();
@@ -184,6 +203,15 @@ export default function HomeScreen() {
             </BlurView>
           </Pressable>
         </View>
+        <View>
+          <GridCard
+              title="Anketa"
+              icon="poll"
+              color="#f59e0b"
+              lib={FontAwesome5}
+              route="/anketa"
+            />
+        </View>
       </ScrollView>
 
       <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
@@ -255,4 +283,33 @@ const styles = StyleSheet.create({
   },
   gridCardTitle: { color: "#fff", fontSize: 16, fontWeight: "bold", marginBottom: 4 },
   gridCardSub: { color: "rgba(255,255,255,0.5)", fontSize: 12 },
+  glassCard: {
+    flex: 1,
+    borderRadius: 20,
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+  },
+  iconContainer: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+    // Lagani shadow za ikonu
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+  },
+  cardTitle: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  cardWrapper: { width: "48%", height: 100 },
 });
