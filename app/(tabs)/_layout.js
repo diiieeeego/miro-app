@@ -35,11 +35,11 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="popusti"
+          name="grad"
           options={{
-            title: "Popusti",
+            title: "Grad",
             tabBarIcon: ({ color }) => (
-              <Ionicons name="pricetag" size={24} color={color} />
+              <Ionicons name="business" size={24} color={color} />
             ),
           }}
         />
@@ -52,12 +52,13 @@ export default function TabLayout() {
             ),
           }}
         />
+        
         <Tabs.Screen
-          name="grad"
+          name="popusti"
           options={{
-            title: "Grad",
+            title: "Popusti",
             tabBarIcon: ({ color }) => (
-              <Ionicons name="business" size={24} color={color} />
+              <Ionicons name="pricetag" size={24} color={color} />
             ),
           }}
         />

@@ -77,7 +77,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <Text style={styles.headerTitle}>Zadar App</Text>
+        <Text style={styles.headerTitle}>Zadar App</Text> 
 
         {/* Glavni istaknuti popust */}
         {featuredDiscount ? (

@@ -29,6 +29,19 @@
     "plugins": [
       "expo-web-browser",
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8e32a440-1649-4e9c-969e-4720924cc0fa"
+      }
+    },
+    "owner": "bura-core",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8e32a440-1649-4e9c-969e-4720924cc0fa"
+    }
   }
 }
