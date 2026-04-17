@@ -18,6 +18,9 @@ import { BlurView } from "expo-blur";
 import { supabase } from "../../lib/supabase";
 import EventModal from "../../components/EventModal";
 import DiscountModal from "../../components/DiscountModal";
+import AnketaScreen from "../../components/Anketa";
+import VazneVijesti from "../../components/VazneVijesti";
+import HamburgerMenu from "../../components/HamburgerMenu";
 
 const { width } = Dimensions.get("window");
 
@@ -26,6 +29,13 @@ export default function HomeScreen() {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedDiscount, setSelectedDiscount] = useState(null);
+  const [zadarWeather, setZadarWeather] = useState({
+    loading: true,
+    tempC: null,
+    label: "",
+    icon: "cloud-outline",
+    windKmh: null,
+  });
 
   const formatirajDatum = (isoString) => {
     if (!isoString) return "";
@@ -37,26 +47,68 @@ export default function HomeScreen() {
     const minute = String(date.getMinutes()).padStart(2, "0");
     return `${dan}.${mjesec}.${godina}. u ${sati}:${minute}`;
   };
-  const GridCard = ({ title, icon, color, lib, route }) => {
-      const IconLib = lib || Ionicons;
-      return (
-        <TouchableOpacity
-          style={styles.cardWrapper}
-          onPress={() => route && router.push(route)}
-        >
-          <BlurView intensity={40} tint="light" style={styles.glassCard}>
-            <View style={[styles.iconContainer, { backgroundColor: color }]}>
-              <IconLib name={icon} size={24} color="#fff" />
-            </View>
-            <Text style={styles.cardTitle}>{title}</Text>
-          </BlurView>
-        </TouchableOpacity>
-      );
-    };
+  
+  const weatherMetaForCode = (code, isDay) => {
+    // Open-Meteo weather codes: https://open-meteo.com/en/docs
+    if (code === 0) return { label: "Vedro", icon: isDay ? "sunny-outline" : "moon-outline" };
+    if (code === 1) return { label: "Pretežno vedro", icon: isDay ? "partly-sunny-outline" : "cloud-outline" };
+    if (code === 2) return { label: "Djelomično oblačno", icon: "partly-sunny-outline" };
+    if (code === 3) return { label: "Oblačno", icon: "cloud-outline" };
+    if ([45, 48].includes(code)) return { label: "Magla", icon: "cloud-outline" };
+    if ([51, 53, 55].includes(code)) return { label: "Rominjanje", icon: "rainy-outline" };
+    if ([56, 57].includes(code)) return { label: "Ledena rosulja", icon: "rainy-outline" };
+    if ([61, 63, 65].includes(code)) return { label: "Kiša", icon: "rainy-outline" };
+    if ([66, 67].includes(code)) return { label: "Ledena kiša", icon: "rainy-outline" };
+    if ([71, 73, 75, 77].includes(code)) return { label: "Snijeg", icon: "snow-outline" };
+    if ([80, 81, 82].includes(code)) return { label: "Pljuskovi", icon: "rainy-outline" };
+    if ([85, 86].includes(code)) return { label: "Snježni pljuskovi", icon: "snow-outline" };
+    if ([95, 96, 99].includes(code)) return { label: "Grmljavina", icon: "thunderstorm-outline" };
+    return { label: "Vrijeme", icon: "cloud-outline" };
+  };
 
   useEffect(() => {
     fetchFeatured();
     fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        // Zadar (approx. city center)
+        const latitude = 44.1194;
+        const longitude = 15.2314;
+        const url =
+          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}` +
+          `&current_weather=true&timezone=Europe%2FZagreb`;
+
+        const res = await fetch(url);
+        const json = await res.json();
+        const cw = json?.current_weather;
+
+        if (!cw) throw new Error("Missing current_weather");
+
+        const tempC = typeof cw.temperature === "number" ? Math.round(cw.temperature) : null;
+        const windKmh = typeof cw.windspeed === "number" ? Math.round(cw.windspeed) : null;
+        const isDay = cw.is_day === 1;
+        const code = cw.weathercode;
+        const meta = weatherMetaForCode(code, isDay);
+
+        setZadarWeather({
+          loading: false,
+          tempC,
+          label: meta.label,
+          icon: meta.icon,
+          windKmh,
+        });
+      } catch (e) {
+        console.error("Greška kod prognoze:", e?.message ?? e);
+        setZadarWeather((prev) => ({ ...prev, loading: false }));
+      }
+    };
+
+    fetchWeather();
+    const id = setInterval(fetchWeather, 10 * 60 * 1000);
+    return () => clearInterval(id);
   }, []);
 
   async function fetchEvents() {
@@ -91,6 +143,28 @@ export default function HomeScreen() {
   return (
     /* 1. UKLONJENA TAMNA BOJA IZ GLAVNOG VIEW-A */
     <View style={{ flex: 1, backgroundColor: "transparent" }}>
+      <HamburgerMenu />
+      <View style={styles.clockWrap} pointerEvents="none">
+        <BlurView intensity={40} tint="dark" style={styles.clockPill}>
+          <View style={styles.weatherTopRow}>
+            <Text style={styles.clockCity}>Zadar</Text>
+            <Ionicons
+              name={zadarWeather.icon}
+              size={16}
+              color="rgba(255,255,255,0.85)"
+              style={{ marginLeft: 8 }}
+            />
+          </View>
+          <Text style={styles.clockTime}>
+            {zadarWeather.loading || zadarWeather.tempC == null
+              ? "Učitavanje…"
+              : `${zadarWeather.tempC}°C · ${zadarWeather.label}`}
+          </Text>
+          {zadarWeather.windKmh != null ? (
+            <Text style={styles.weatherSub}>Vjetar {zadarWeather.windKmh} km/h</Text>
+          ) : null}
+        </BlurView>
+      </View>
       <ScrollView 
         style={styles.container} 
         showsVerticalScrollIndicator={false}
@@ -203,15 +277,13 @@ export default function HomeScreen() {
             </BlurView>
           </Pressable>
         </View>
-        <View>
-          <GridCard
-              title="Anketa"
-              icon="poll"
-              color="#f59e0b"
-              lib={FontAwesome5}
-              route="/anketa"
-            />
+
+        <VazneVijesti />
+
+        <View style={{ marginBottom: 30 }}>
+          <AnketaScreen embedded />
         </View>
+        
       </ScrollView>
 
       <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
@@ -222,6 +294,45 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { paddingHorizontal: 15, paddingVertical: 100, backgroundColor: 'rgba(0,0,0,0.3)' },
+  clockWrap: {
+    position: "absolute",
+    top: 55,
+    right: 15,
+    zIndex: 10,
+  },
+  clockPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 14,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.14)",
+    minWidth: 150,
+  },
+  weatherTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  clockCity: {
+    color: "rgba(255,255,255,0.75)",
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 0.2,
+    marginBottom: 2,
+  },
+  clockTime: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "800",
+    letterSpacing: 0.4,
+  },
+  weatherSub: {
+    marginTop: 4,
+    color: "rgba(255,255,255,0.6)",
+    fontSize: 11,
+    fontWeight: "600",
+  },
   headerTitle: {
     color: "#fff",
     fontSize: 28,
@@ -283,33 +394,5 @@ const styles = StyleSheet.create({
   },
   gridCardTitle: { color: "#fff", fontSize: 16, fontWeight: "bold", marginBottom: 4 },
   gridCardSub: { color: "rgba(255,255,255,0.5)", fontSize: 12 },
-  glassCard: {
-    flex: 1,
-    borderRadius: 20,
-    overflow: "hidden",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
-  },
-  iconContainer: {
-    width: 45,
-    height: 45,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 8,
-    // Lagani shadow za ikonu
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-  },
-  cardTitle: {
-    color: "#fff",
-    fontSize: 13,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  cardWrapper: { width: "48%", height: 100 },
+  
 });

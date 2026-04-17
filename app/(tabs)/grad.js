@@ -15,11 +15,74 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import { router } from "expo-router";
+import HamburgerMenu from "../../components/HamburgerMenu";
 
 
 const { width } = Dimensions.get("window");
 
 export default function GradScreen() {
+  const vazneInfo = [
+    {
+      id: "info-1",
+      type: "Radovi",
+      title: "Radovi na kolniku: Put Stanova",
+      detail: "Očekuju se povremena zadržavanja i naizmjenično propuštanje prometa.",
+      time: "Danas 07:00–16:00",
+      icon: "road-variant",
+      iconLib: MaterialCommunityIcons,
+      color: "#f59e0b",
+    },
+    {
+      id: "info-2",
+      type: "Event",
+      title: "Događanje u centru: posebna regulacija (Poluotok)",
+      detail: "Pojačan nadzor parkiranja i moguće zatvaranje pojedinih ulica u večernjim satima.",
+      time: "Danas 18:00–23:30",
+      icon: "account-group-outline",
+      iconLib: MaterialCommunityIcons,
+      color: "#3b82f6",
+    },
+    {
+      id: "info-3",
+      type: "Obavijest",
+      title: "Privremeno izmijenjene autobusne stanice",
+      detail: "Zbog radova se dio linija preusmjerava. Provjerite najbližu zamjensku stanicu.",
+      time: "Do petka",
+      icon: "bus-alert",
+      iconLib: MaterialCommunityIcons,
+      color: "#10b981",
+    },
+  ];
+
+  const VaznaInfoCard = ({ item }) => {
+    const IconLib = item.iconLib || Ionicons;
+    return (
+      <TouchableOpacity activeOpacity={0.9} style={styles.infoCardOuter}>
+        <BlurView intensity={35} tint="dark" style={styles.infoCard}>
+          <View style={styles.infoTopRow}>
+            <View style={[styles.infoBadge, { borderColor: `${item.color}55`, backgroundColor: `${item.color}22` }]}>
+              <Text style={[styles.infoBadgeText, { color: item.color }]}>{item.type}</Text>
+            </View>
+            <Text style={styles.infoTime}>{item.time}</Text>
+          </View>
+
+          <View style={styles.infoTitleRow}>
+            <View style={[styles.infoIconCircle, { borderColor: `${item.color}55` }]}>
+              <IconLib name={item.icon} size={18} color={item.color} />
+            </View>
+            <Text style={styles.infoTitle} numberOfLines={2}>
+              {item.title}
+            </Text>
+          </View>
+
+          <Text style={styles.infoDetail} numberOfLines={2}>
+            {item.detail}
+          </Text>
+        </BlurView>
+      </TouchableOpacity>
+    );
+  };
+
   // Pomoćna komponenta za Grid kartice
   const GridCard = ({ title, icon, color, lib, route }) => {
     const IconLib = lib || Ionicons;
@@ -67,11 +130,10 @@ export default function GradScreen() {
     return (
       <View style={styles.wideCardWrapper1}>
         
-        <BlurView intensity={3} tint="light" style={styles.wideGlassCard1}>
+        <BlurView intensity={35} tint="dark" style={styles.wideGlassCard1}>
           <ImageBackground
             source={require('../../assets/images/explore1.jpg')}
             style={StyleSheet.absoluteFill}
-            
             // Za test ostavi: style={[StyleSheet.absoluteFill, {backgroundColor: 'red'}]}
          />
           <View style={styles.wideContent1}>
@@ -103,6 +165,7 @@ export default function GradScreen() {
   return (
     
       <View style={styles.overlay}>
+        <HamburgerMenu />
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
@@ -110,6 +173,13 @@ export default function GradScreen() {
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Zadar</Text>
             <Text style={styles.headerDesc}>Sve važne gradske informacije</Text>
+          </View>
+
+          <Text style={styles.sectionTitle}>Važne informacije</Text>
+          <View style={styles.infoList}>
+            {vazneInfo.map((item) => (
+              <VaznaInfoCard key={item.id} item={item} />
+            ))}
           </View>
 
           {/* Prvi red: Hitne i Komunalne */}
@@ -194,14 +264,14 @@ export default function GradScreen() {
           </View>
           <View style={styles.row}>
             <WideCard1
-              title="Explore Zadar"
-              subtitle="Zadar App uskoro donosi Experience dio za turiste."
+              title="Naručite svoj QR code stalak"
+              subtitle="Za vaš apartman · brzo i jednostavno"
               icon="globe-europe"
               color="#3b82f6"
               lib={FontAwesome5}
-              description="Privatne večere, najam brodica, ribolovne ture, izleti i jedinstveni lokalni doživljaji - sve na jednom mjestu."
-              buttonText="Zatraži besplatni QR stalak"
-              onPress={() => console.log("QR zahtjev pokrenut")}
+              description="Gosti skeniraju QR i odmah dobiju Wi‑Fi podatke, upute za ulaz, kućni red i preporuke u blizini."
+              buttonText="Zatraži ponudu"
+              onPress={() => console.log("QR stalak: upit")}
             />
           </View>
         </ScrollView>
@@ -218,6 +288,52 @@ const styles = StyleSheet.create({
   headerSubtitle: { color: "#fff", fontSize: 18, opacity: 0.8 },
   headerTitle: { color: "#fff", fontSize: 36, fontWeight: "bold" },
   headerDesc: { color: "#fff", fontSize: 14, opacity: 0.7, marginTop: 5 },
+  sectionTitle: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "600",
+    marginBottom: 12,
+    marginTop: 4,
+  },
+  infoList: { marginBottom: 18 },
+  infoCardOuter: {
+    borderRadius: 18,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+    marginBottom: 12,
+  },
+  infoCard: { padding: 14 },
+  infoTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  infoBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  infoBadgeText: {
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 0.2,
+  },
+  infoTime: { color: "rgba(255,255,255,0.65)", fontSize: 11, fontWeight: "700" },
+  infoTitleRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 8 },
+  infoIconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(255,255,255,0.08)",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+  },
+  infoTitle: { color: "#fff", fontSize: 15, fontWeight: "800", flex: 1 },
+  infoDetail: { color: "rgba(255,255,255,0.75)", fontSize: 12, lineHeight: 18 },
 
   row: {
     flexDirection: "row",
@@ -332,6 +448,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     gap: 15,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
     
   },
   wideContent1: {

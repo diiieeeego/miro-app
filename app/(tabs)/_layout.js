@@ -23,12 +23,14 @@ export default function TabLayout() {
           },
           headerTransparent: true,
           headerTintColor: "#fff",
+          headerTitle: "",
+          headerShadowVisible: false,
         }}
       >
         <Tabs.Screen
           name="index"
           options={{
-            title: "Home",
+            tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
               <Ionicons name="home" size={24} color={color} />
             ),
@@ -37,7 +39,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="grad"
           options={{
-            title: "Grad",
+            tabBarLabel: "Grad",
             tabBarIcon: ({ color }) => (
               <Ionicons name="business" size={24} color={color} />
             ),
@@ -46,7 +48,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="dogadaji"
           options={{
-            title: "Događaji",
+            tabBarLabel: "Događaji",
             tabBarIcon: ({ color }) => (
               <Ionicons name="calendar-outline" size={24} color={color} />
             ),
@@ -56,7 +58,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="popusti"
           options={{
-            title: "Popusti",
+            tabBarLabel: "Popusti",
             tabBarIcon: ({ color }) => (
               <Ionicons name="pricetag" size={24} color={color} />
             ),
