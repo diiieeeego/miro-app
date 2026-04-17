@@ -56,6 +56,11 @@ Datum: 2026-04-17
   - prikaz emaila + odjava
   - ako user nije prijavljen -> redirect na /login
 
+8) Sport & Rekreacija (app/sport.js)
+- Dodana sekcija "Rezervacija termina" s popisom zadarskih dvorana/terena (demo):
+  - svaka stavka ima sliku (remote), lokaciju i kontakt
+  - dodan CTA "Rezerviraj" (demo)
+
 Napomena:
 - Sve je rađeno kao demo za klijenta: sadržaj vijesti i važnih informacija je "dummy" (primjer).
 

@@ -280,7 +280,7 @@ export default function HomeScreen() {
 
         <VazneVijesti />
 
-        <View style={{ marginBottom: 30 }}>
+        <View style={{ marginTop: 20, marginBottom: 30 }}>
           <AnketaScreen embedded />
         </View>
         

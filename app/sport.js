@@ -29,6 +29,45 @@ const OSTALI_SPORTOVI = [
   { id: 3, name: "Sveučilišni sport", klub: "Unisport ZD", info: "Košarkaška ekipa osigurala završnicu prvenstva.", icon: "graduation-cap" },
 ];
 
+const OBJEKTI_ZADAR = [
+  {
+    id: "obj-1",
+    name: "Sportski centar Višnjik",
+    type: "Dvorane i tereni",
+    image:
+      "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=70",
+    location: "Splitska ul. 3, 23000 Zadar",
+    contact: "info@visnjik.hr · +385 23 200 200",
+  },
+  {
+    id: "obj-2",
+    name: "Dvorana Jazine",
+    type: "Košarkaška dvorana",
+    image:
+      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=70",
+    location: "Obala kneza Branimira, 23000 Zadar",
+    contact: "kontakt@kkzadar.hr · +385 23 315 315",
+  },
+  {
+    id: "obj-3",
+    name: "ŠC Stanovi (igralište/teren)",
+    type: "Vanjski teren",
+    image:
+      "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=70",
+    location: "Put Stanova, 23000 Zadar",
+    contact: "Grad Zadar info · +385 23 208 000",
+  },
+  {
+    id: "obj-4",
+    name: "Teniski centar Višnjik",
+    type: "Teniski tereni",
+    image:
+      "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1200&q=70",
+    location: "Splitska ul. 3, 23000 Zadar",
+    contact: "rezervacije@visnjik.hr · +385 23 200 200",
+  },
+];
+
 export default function SportScreen() {
   return (
     <ImageBackground
@@ -105,6 +144,60 @@ export default function SportScreen() {
               ))}
             </View>
 
+            {/* Sekcija: Rezervacija termina */}
+            
+            <View style={styles.venuesList}>
+            <Text style={styles.sectionTitle}>Rezervacija termina</Text>
+              {OBJEKTI_ZADAR.map((v) => (
+                <TouchableOpacity
+                  key={v.id}
+                  activeOpacity={0.9}
+                  onPress={() => console.log("Rezervacija:", v.name)}
+                  style={styles.venueCardOuter}
+                >
+                  <ImageBackground
+                    source={{ uri: v.image }}
+                    style={styles.venueImage}
+                    imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+                  >
+                    <View style={styles.venueImageShade} />
+                    <View style={styles.venueTopBadge}>
+                      <Text style={styles.venueTopBadgeText}>{v.type}</Text>
+                    </View>
+                  </ImageBackground>
+
+                  <BlurView intensity={30} tint="dark" style={styles.venueBody}>
+                    <Text style={styles.venueName}>{v.name}</Text>
+
+                    <View style={styles.venueRow}>
+                      <Ionicons name="location-outline" size={16} color="rgba(255,255,255,0.85)" />
+                      <Text style={styles.venueMeta} numberOfLines={2}>
+                        {v.location}
+                      </Text>
+                    </View>
+
+                    <View style={styles.venueRow}>
+                      <Ionicons name="call-outline" size={16} color="rgba(255,255,255,0.85)" />
+                      <Text style={styles.venueMeta} numberOfLines={2}>
+                        {v.contact}
+                      </Text>
+                    </View>
+
+                    <View style={styles.venueCtaRow}>
+                      <View style={styles.venueHint}>
+                        <Ionicons name="time-outline" size={14} color="rgba(255,255,255,0.65)" />
+                        <Text style={styles.venueHintText}>Odaberi termin (demo)</Text>
+                      </View>
+                      <View style={styles.venueBtn}>
+                        <Text style={styles.venueBtnText}>Rezerviraj</Text>
+                        <Ionicons name="chevron-forward" size={16} color="#0b1220" />
+                      </View>
+                    </View>
+                  </BlurView>
+                </TouchableOpacity>
+              ))}
+            </View>
+
           </ScrollView>
         </View>
       </View>
@@ -145,5 +238,52 @@ const styles = StyleSheet.create({
   otherSportContent: { flexDirection: 'row', alignItems: 'center', gap: 15 },
   iconCircle: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.1)', justifyContent: 'center', alignItems: 'center' },
   otherSportName: { color: '#fff', fontSize: 15, fontWeight: 'bold' },
-  otherSportInfo: { color: 'rgba(255,255,255,0.6)', fontSize: 12, marginTop: 4, lineHeight: 18 }
+  otherSportInfo: { color: 'rgba(255,255,255,0.6)', fontSize: 12, marginTop: 4, lineHeight: 18 },
+
+  // Venues / Reservation
+  venuesList: { gap: 10,marginTop: 30, marginBottom: 10 },
+  venueCardOuter: {
+    borderRadius: 20,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+  },
+  venueImage: { height: 120, justifyContent: "flex-end" },
+  venueImageShade: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.25)",
+  },
+  venueTopBadge: {
+    alignSelf: "flex-start",
+    margin: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.14)",
+  },
+  venueTopBadgeText: { color: "#fff", fontSize: 11, fontWeight: "900" },
+  venueBody: { padding: 14 },
+  venueName: { color: "#fff", fontSize: 16, fontWeight: "900", marginBottom: 8 },
+  venueRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 6 },
+  venueMeta: { color: "rgba(255,255,255,0.75)", fontSize: 12, fontWeight: "700", flex: 1 },
+  venueCtaRow: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  venueHint: { flexDirection: "row", alignItems: "center", gap: 6 },
+  venueHintText: { color: "rgba(255,255,255,0.65)", fontSize: 11, fontWeight: "800" },
+  venueBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 14,
+    backgroundColor: "#ffd700",
+  },
+  venueBtnText: { color: "#0b1220", fontSize: 12, fontWeight: "900" },
 });
