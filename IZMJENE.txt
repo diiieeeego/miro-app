@@ -1,0 +1,61 @@
+IZMJENE (sažetak promjena kroz razgovor)
+=======================================
+Projekt: miroApp
+Datum: 2026-04-17
+
+1) Home (app/(tabs)/index.js)
+- Dodan overlay "Zadar" trenutna prognoza gore desno (Open-Meteo current_weather):
+  - temperatura + opis + ikonica + (opcionalno) vjetar
+  - osvježavanje svakih 10 min
+- Maknut prikaz sata (zamijenjen prognozom).
+- Ubačen hamburger izbornik gore lijevo.
+- Ubačena sekcija "Važne vijesti" (demo) iznad ankete.
+- Anketa na dnu prebačena u embedded varijantu bez full-screen pozadine.
+
+2) Tab header (app/(tabs)/_layout.js)
+- Maknut naziv taba iz gornjeg headera (headerTitle: "").
+- Naslovi tabova zadržani u donjem tab baru preko tabBarLabel.
+
+3) Anketa (components/Anketa.js)
+- Refaktor: Anketa sada podržava prop embedded:
+  - embedded=true: render bez ImageBackground/overlaya i bez headera/back gumba
+  - embedded=false: ostaje full-screen izgled kao prije
+
+4) Važne vijesti (components/VazneVijesti.js)
+- Nova komponenta s nekoliko demo vijesti iz Zadra (glass kartice + "Više/Manje").
+- Ubačena na Home screen.
+
+5) Grad ekran (app/(tabs)/grad.js)
+- Dodana nova sekcija "Važne informacije" (demo):
+  - radovi na cestama / regulacije / obavijesti koje utječu na građane
+- Prepravljena kartica "Explore Zadar" u:
+  - "Naručite svoj QR code stalak"
+  - tekstovi i CTA "Zatraži ponudu"
+  - dizajn usklađen (dark glass + border).
+- Dodan hamburger izbornik gore lijevo.
+
+6) Hamburger menu + jezik + auth (components/HamburgerMenu.js)
+- Nova komponenta: hamburger ikona gore lijevo + modal izbornik.
+- Stavke:
+  - Postavke (uvijek)
+  - Prijava (ako nije prijavljen)
+  - Profil + Odjava (ako je prijavljen)
+- Odabir jezika HR/EN (sprema se u AsyncStorage pod ključem "app_lang").
+- Session status se prati preko Supabase auth eventova.
+
+7) Nove stranice/rute (app/)
+- app/settings.js:
+  - Zadar pozadina + overlay + back tipka
+  - demo postavke (notifikacije, promet/event alerti, lokacija, ušteda podataka, jezik,
+    privatnost/uvjeti placeholder, clear cache, about/kontakt)
+  - spremanje lokalno (AsyncStorage: "app_settings_v1")
+- app/login.js:
+  - Zadar pozadina + overlay + back tipka
+  - Supabase magic-link prijava (email)
+- app/profile.js:
+  - prikaz emaila + odjava
+  - ako user nije prijavljen -> redirect na /login
+
+Napomena:
+- Sve je rađeno kao demo za klijenta: sadržaj vijesti i važnih informacija je "dummy" (primjer).
+
