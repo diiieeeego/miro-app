@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { ThemeProvider, DefaultTheme } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   // Kreiramo prozirnu temu
@@ -12,10 +13,12 @@ export default function RootLayout() {
   };
 
   return (
-    <ThemeProvider value={TransparentTheme}>
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' } }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={TransparentTheme}>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' } }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
