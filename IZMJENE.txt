@@ -61,6 +61,10 @@ Datum: 2026-04-17
   - svaka stavka ima sliku (remote), lokaciju i kontakt
   - dodan CTA "Rezerviraj" (demo)
 
+9) Hamburger menu – vizual (components/HamburgerMenu.js)
+- Izmijenjen izgled izbornika (modal menija).
+- Izmijenjen izgled hamburger ikone.
+
 Napomena:
 - Sve je rađeno kao demo za klijenta: sadržaj vijesti i važnih informacija je "dummy" (primjer).
 
