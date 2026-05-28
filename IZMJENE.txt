@@ -68,3 +68,38 @@ Datum: 2026-04-17
 Napomena:
 - Sve je rađeno kao demo za klijenta: sadržaj vijesti i važnih informacija je "dummy" (primjer).
 
+=======================================
+Datum: 2026-05-28
+=======================================
+
+10) Otoci ekran (app/experience_otoci.js)
+- Zamijenjen placeholder sadržaj kompletnim prikazom 10 otoka zadarskog arhipelaga.
+- Prikaz u 2-kolumnom grid sustavu (BlurView kartice s accent bojom i ikonom po otoku).
+- Otoci: Ugljan, Pašman, Dugi Otok, Iž, Molat, Ist, Olib, Silba, Premuda, Rava.
+- Svaka kartica otvara modal s:
+  - Horizontalnom galerijskom slika (scroll + dot indikatori)
+  - Opisom otoka
+  - Brodskim prijevozom (Jadrolinija linije s vremenima)
+  - Autobusnim prijevozom (lokalne linije ili napomena)
+  - Taxi uslugama (kontakti)
+  - Napomenom / lokalnim savjetom (ljubičasti highlight box)
+
+11) Grad ekran (app/experience_grad.js)
+- Zamijenjen placeholder sadržaj kompletnim prikazom 5 kategorija, ukupno 20 lokacija.
+- Kategorije s naslovima i ikonama, svaka u zasebnoj sekciji:
+  - Skrivene plaže (4 lokacije): Fortica, Puntamika, Uvala Jadra, Borik-sjever
+  - Sunset spotovi (4): Morske orgulje, Pozdrav suncu, Sv. Mihovil, Fosa
+  - Hidden barovi (4): Arsenal, Garden Lounge, Kult Bar, Ledana
+  - Lokalna mjesta (4): Gradska tržnica, Ribarnica, Kalelarga, Sv. Donat & Forum
+  - Autentična iskustva (4): Maraschino degustacija, Večernji ribolov, Vez radionica, Maslinik tura
+- Svaka kartica otvara modal s:
+  - Horizontalnom galerijom slika (scroll + dot indikatori)
+  - Opisom mjesta
+  - Kako doći (konkretne upute s autobusnim linijama i minutama hoda)
+  - Radno vrijeme & Preporučeno doba posjeta
+  - Lokalnim savjetom (narančasti highlight box — insider info)
+
+12) app.json – EAS web platforma
+- Dodano "platforms": ["ios", "android"] kako bi se spriječio pokušaj web builda
+  pri eas update naredbi (uzrokovalo grešku zbog nedostajućeg react-native-web).
+
