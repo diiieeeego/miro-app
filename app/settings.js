@@ -12,7 +12,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const SETTINGS_KEY = "app_settings_v1";
 
@@ -137,17 +137,6 @@ export default function SettingsScreen() {
   return (
     <ImageBackground source={require("../assets/images/grad-bg.jpg")} style={styles.bg}>
       <View style={styles.overlay}>
-        <View style={styles.topRow}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            activeOpacity={0.85}
-            style={styles.backBtn}
-          >
-            <Ionicons name="chevron-back" size={22} color="#fff" />
-            <Text style={styles.backText}>{t.back}</Text>
-          </TouchableOpacity>
-        </View>
-
         <ScrollView
           contentContainerStyle={styles.scroll}
           showsVerticalScrollIndicator={false}
@@ -272,8 +261,8 @@ export default function SettingsScreen() {
             />
           </BlurView>
 
-          <View style={{ height: 30 }} />
         </ScrollView>
+        <BottomTabBar />
       </View>
     </ImageBackground>
   );
@@ -336,7 +325,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.06)",
   },
   backText: { color: "rgba(255,255,255,0.9)", fontSize: 12, fontWeight: "900" },
-  scroll: { paddingHorizontal: 15, paddingTop: 12, paddingBottom: 20 },
+  scroll: { paddingHorizontal: 15, paddingTop: 60, paddingBottom: 90 },
   card: {
     borderRadius: 20,
     overflow: "hidden",

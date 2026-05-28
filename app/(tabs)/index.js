@@ -172,7 +172,7 @@ export default function HomeScreen() {
       >
         <Text style={styles.headerTitle}>Zadar App</Text> 
 
-        {/* Glavni istaknuti popust */}
+        {/* 
         {featuredDiscount ? (
           <TouchableOpacity
             activeOpacity={0.9}
@@ -199,7 +199,7 @@ export default function HomeScreen() {
           <View style={styles.loadingPlaceholder}>
             <Text style={{ color: "#fff", opacity: 0.5 }}>Učitavanje ponude...</Text>
           </View>
-        )}
+        )} */}
 
         {/* Sekcija: Danas u Zadru */}
         <Text style={styles.sectionTitle}>Danas u Zadru</Text>

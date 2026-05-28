@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const { width } = Dimensions.get("window");
 const grad = require("../assets/images/grad-bg.jpg");
@@ -43,16 +43,9 @@ export default function AnketaScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Dnevna Anketa</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Dnevna Anketa</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* Glavna Kartica s Pitanjem (WideCard1 stil) */}
             <View style={styles.wideCardWrapper}>
@@ -127,6 +120,7 @@ export default function AnketaScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

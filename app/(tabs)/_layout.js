@@ -56,9 +56,9 @@ export default function TabLayout() {
         />
         
         <Tabs.Screen
-          name="popusti"
+          name="experiences"
           options={{
-            tabBarLabel: "Popusti",
+            tabBarLabel: "Doživljaji",
             tabBarIcon: ({ color }) => (
               <Ionicons name="pricetag" size={24} color={color} />
             ),

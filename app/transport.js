@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const { width } = Dimensions.get("window");
 const grad = require("../assets/images/grad-bg.jpg");
@@ -25,16 +25,9 @@ export default function TransportScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Gradski Prijevoz</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Gradski Prijevoz</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* 1. Brzi Odabir Tipa Prijevoza */}
             <View style={styles.tabsContainer}>
@@ -117,6 +110,7 @@ export default function TransportScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

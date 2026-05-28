@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const KOMUNALNE_SLUZBE = [
   { id: 1, name: "Čistoća Zadar", phone: "023234810", desc: "Odvoz otpada i reciklažna dvorišta", icon: "recycle", color: "#10b981" },
@@ -32,16 +32,9 @@ export default function KomunalneInfoScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Komunalne Info</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Komunalne Info</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* WideCard1 Stil - Glavna kartica */}
             <View style={styles.wideCardWrapper}>
@@ -102,6 +95,7 @@ export default function KomunalneInfoScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

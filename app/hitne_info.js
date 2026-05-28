@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const HITNI_BROJEVI = [
   { id: 1, name: "Jedinstveni broj (EU)", phone: "112", desc: "Za sve hitne situacije", icon: "alert-octagon" },
@@ -38,16 +38,9 @@ export default function HitneInfoScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Hitne Informacije</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Hitne Informacije</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* WideCard1 Stil - Glavno upozorenje */}
             <View style={styles.wideCardWrapper}>
@@ -110,6 +103,7 @@ export default function HitneInfoScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

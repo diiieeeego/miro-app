@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 
 const { width } = Dimensions.get("window");
@@ -76,16 +76,9 @@ export default function SportScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Sport & Rekreacija</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Sport & Rekreacija</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* Glavna kartica - Zadnji uspjeh (WideCard1 stil) */}
             <View style={styles.wideCardWrapper}>
@@ -200,6 +193,7 @@ export default function SportScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

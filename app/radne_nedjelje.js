@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import BottomTabBar from "../components/BottomTabBar";
 
 const TRGOVINE = [
   { id: 1, name: "Supernova Zadar", type: "Centar", workTime: "09:00 - 21:00", status: "Otvoreno", info: "Provjerite kalendar radnih nedjelja na webu." },
@@ -35,16 +35,9 @@ export default function NedjeljaScreen() {
     >
       <View style={styles.overlay}>
         <View style={styles.safeArea}>
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="chevron-back" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Nedjelja u Zadru</Text>
-            <View style={{ width: 28 }} />
-          </View>
+          <Text style={[styles.headerTitle, { marginBottom: 25 }]}>Nedjelja u Zadru</Text>
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
             
             {/* WideCard1 Stil - Glavna Obavijest */}
             <View style={styles.wideCardWrapper}>
@@ -106,6 +99,7 @@ export default function NedjeljaScreen() {
 
           </ScrollView>
         </View>
+      <BottomTabBar />
       </View>
     </ImageBackground>
   );

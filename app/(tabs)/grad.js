@@ -262,6 +262,25 @@ export default function GradScreen() {
               route="/sport"
             />
           </View>
+
+          {/* Sekcija: Popusti */}
+          <Text style={styles.sectionTitle}>Popusti & Ponude</Text>
+          <TouchableOpacity
+            style={styles.popustiCard}
+            onPress={() => router.push('/popusti')}
+            activeOpacity={0.85}
+          >
+            <BlurView intensity={40} tint="dark" style={styles.popustiInner}>
+              <View style={[styles.popustiIconCircle, { backgroundColor: '#e11d4822' }]}>
+                <Ionicons name="pricetag" size={28} color="#e11d48" />
+              </View>
+              <View style={styles.popustiTextWrap}>
+                <Text style={styles.popustiTitle}>Ekskluzivni popusti</Text>
+                <Text style={styles.popustiSub}>Pogledaj sve ponude partnerskih lokala</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="rgba(255,255,255,0.4)" />
+            </BlurView>
+          </TouchableOpacity>
           <View style={styles.row}>
             <WideCard1
               title="Naručite svoj QR code stalak"
@@ -482,5 +501,42 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: "start",
   },
-  
+
+  // Popusti card
+  popustiCard: {
+    width: '100%',
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(225,29,72,0.3)',
+  },
+  popustiInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    gap: 14,
+  },
+  popustiIconCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(225,29,72,0.35)',
+  },
+  popustiTextWrap: {
+    flex: 1,
+  },
+  popustiTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 3,
+  },
+  popustiSub: {
+    color: 'rgba(255,255,255,0.55)',
+    fontSize: 12,
+  },
 });
