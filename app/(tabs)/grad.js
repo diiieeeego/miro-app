@@ -253,13 +253,22 @@ export default function GradScreen() {
             />
           </View>
           <View style={styles.row}>
-            {/* Zadnja široka kartica */}
             <WideCard
               title="Sport & Rekreacija"
               icon="basketball-ball"
               color="#fbbf24"
               lib={FontAwesome5}
               route="/sport"
+            />
+          </View>
+
+          <View style={styles.row}>
+            <WideCard
+              title="Poslovi"
+              icon="briefcase"
+              color="#6366f1"
+              lib={FontAwesome5}
+              route="/poslovi"
             />
           </View>
 

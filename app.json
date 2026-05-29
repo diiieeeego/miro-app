@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Zadar App",
-    "slug": "zadar-app",
+    "slug": "miroApp",
     "scheme": "zadarapp",
     "version": "1.0.0",
     "orientation": "portrait",
